@@ -2,13 +2,14 @@
   "name": "civic-pass-template",
   "version": "0.1.0",
   "dependencies": {
-    "@civic/solana-gateway-react": "^0.5.0",
+    "@civic/solana-gateway-react": "file:../ociv-gatekeeper/react-component",
     "@solana/wallet-adapter-base": "^0.8.1",
     "@solana/wallet-adapter-react": "^0.14.1",
     "@solana/wallet-adapter-react-ui": "^0.7.0",
     "@solana/wallet-adapter-wallets": "^0.13.0",
     "@solana/web3.js": "^1.31.0",
-    "react": "^17.0.2",
+    "ethers": "^5.6.2",
+    "react": "^18.0.0",
     "react-dom": "^17.0.2",
     "react-scripts": "^4.0.3"
   },

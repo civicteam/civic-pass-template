@@ -5,7 +5,7 @@ import React, { useMemo } from "react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { clusterApiUrl  } from "@solana/web3.js";
 import { getPhantomWallet, getSolletWallet } from "@solana/wallet-adapter-wallets";
-import Gateway from "./Gateway";
+import Gateway from "./GatewayOwnerSigns";
 
 function App() {
   const network = WalletAdapterNetwork.Devnet;

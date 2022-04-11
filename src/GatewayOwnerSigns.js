@@ -2,6 +2,8 @@ import React from 'react';
 import { PublicKey, clusterApiUrl, Connection } from '@solana/web3.js';
 import { GatewayProvider, useGateway, GatewayStatus } from '@civic/solana-gateway-react';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { Wallet } from 'ethers';
+import { getDefaultProvider } from '@ethersproject/providers';
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -36,7 +38,9 @@ const requiresSignature = (transaction, wallet) => {
 }
 
 function GatewayOwnerSigns() {
-  const wallet = useWallet();
+  // const wallet = useWallet();
+  let wallet = new Wallet('0x7e03b5a475104e97c1795887b6e972efab0ac7c87b1aa003daa119a99a20deca', getDefaultProvider())
+  console.log(wallet);
   const { publicKey } = wallet;
   const { gatekeeperNetwork, stage, clusterUrl } = env.test;
   return (
