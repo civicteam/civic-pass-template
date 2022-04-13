@@ -2,7 +2,10 @@
   "name": "civic-pass-template",
   "version": "0.1.0",
   "dependencies": {
+    "@solana/spl-token": "^0.1.3",
+    "@bonfida/spl-name-service": "^0.1.25",
     "@civic/solana-gateway-react": "file:../ociv-gatekeeper/react-component",
+    "@coinbase/wallet-sdk": "^3.0.5",
     "@solana/wallet-adapter-base": "^0.8.1",
     "@solana/wallet-adapter-react": "^0.14.1",
     "@solana/wallet-adapter-react-ui": "^0.7.0",
@@ -11,7 +14,10 @@
     "ethers": "^5.6.2",
     "react": "^18.0.0",
     "react-dom": "^17.0.2",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^4.0.3",
+    "typescript": "^4.6.3",
+    "web3modal": "^1.9.5",
+    "@identity.com/sol-did-client": "^2.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

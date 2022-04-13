@@ -37,9 +37,15 @@ const requiresSignature = (transaction, wallet) => {
   return transaction.signatures.find(sig => sig.publicKey.equals(wallet.publicKey)) !== undefined;
 }
 
+// {
+//   address: '0x48f40CAd38d190Fa8D40B2D1ccA60288B56aa0eD',
+//   publicKey: '0x0439b31d2cb1e24fcc3ef8a8d023684023f94714b2025540e1f40cd61e12e6f10fbc5040dbb91e73ce7362b4811cd31a3b3ae19d43baa71f058a1a57fa9c720822',
+//   privateKey: '0x1c52d1576f2a70d281b7352758999d9a5791868fc882808f45d585427df6a0e9'
+// }
+
 function GatewayOwnerSigns() {
-  // const wallet = useWallet();
-  let wallet = new Wallet('0x7e03b5a475104e97c1795887b6e972efab0ac7c87b1aa003daa119a99a20deca', getDefaultProvider())
+  const wallet = useWallet();
+  //let wallet = new Wallet('0x1c52d1576f2a70d281b7352758999d9a5791868fc882808f45d585427df6a0e9', getDefaultProvider('ropsten', {infura: 'fce19fa62f5242ad927f7be541f89e83'}))
   console.log(wallet);
   const { publicKey } = wallet;
   const { gatekeeperNetwork, stage, clusterUrl } = env.test;
@@ -52,10 +58,10 @@ function GatewayOwnerSigns() {
       handleTransaction={async (transaction) => {
         const endpoint = clusterApiUrl('devnet');
         const connection = new Connection(endpoint, 'confirmed');
-        const signature = requiresSignature(transaction, wallet) 
+        const signature = requiresSignature(transaction, wallet)
           ? await wallet.sendTransaction(transaction, connection)
           : await connection.sendRawTransaction(transaction.serialize());
-        
+
         const result = await connection.confirmTransaction(signature, 'processed');
         console.log(result);
       }}
