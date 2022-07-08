@@ -9,6 +9,7 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 const env = {
   prod: {
     gatekeeperNetwork: new PublicKey('ignREusXmGrscGNUesoU9mxfds9AiYTezUKex2PsZV6'),
+    clusterUrl: 'https://api.mainnet-beta.solana.com',
   },
   test: {
     gatekeeperNetwork: new PublicKey('tigoYhp9SpCDoCQmXGj2im5xa3mnjR1zuXrpCJ5ZRmi'),
@@ -35,23 +36,24 @@ const requiresSignature = (transaction, wallet) => {
   return transaction.signatures.find(sig => sig.publicKey.equals(wallet.publicKey)) !== undefined;
 }
 
-function GatewayOwnerSigns() {
+/** A sample demonstrating how to provide a custom implementation for handle transaction */
+function GatewayCustomHandleTransaction() {
   const wallet = useWallet();
   const { publicKey } = wallet;
-  const { gatekeeperNetwork, stage, clusterUrl } = env.test;
+  const { gatekeeperNetwork, stage, clusterUrl } = env.prod;
   return (
     <GatewayProvider
       wallet={wallet}
       gatekeeperNetwork={gatekeeperNetwork}
       stage={stage}
-      broadcastTransaction={false}
       handleTransaction={async (transaction) => {
+        // Provide a custom implementation to sign and send the transaction
         const endpoint = clusterApiUrl('devnet');
         const connection = new Connection(endpoint, 'confirmed');
-        const signature = requiresSignature(transaction, wallet) 
+        const signature = requiresSignature(transaction, wallet)
           ? await wallet.sendTransaction(transaction, connection)
           : await connection.sendRawTransaction(transaction.serialize());
-        
+
         const result = await connection.confirmTransaction(signature, 'processed');
         console.log(result);
       }}
@@ -61,4 +63,4 @@ function GatewayOwnerSigns() {
   )
 }
 
-export default GatewayOwnerSigns;
+export default GatewayCustomHandleTransaction;
