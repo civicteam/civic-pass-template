@@ -10,10 +10,12 @@ const env = {
   prod: {
     gatekeeperNetwork: new PublicKey('ignREusXmGrscGNUesoU9mxfds9AiYTezUKex2PsZV6'),
     clusterUrl: 'https://api.mainnet-beta.solana.com',
+    cluster: 'mainnet-beta',
   },
   test: {
     gatekeeperNetwork: new PublicKey('tigoYhp9SpCDoCQmXGj2im5xa3mnjR1zuXrpCJ5ZRmi'),
     clusterUrl: 'https://api.devnet.solana.com',
+    cluster: 'devnet',
     stage: 'preprod',
   }
 };
@@ -35,7 +37,7 @@ function RequestGatewayToken() {
 function Gateway() {
   const wallet = useWallet();
   const { publicKey } = wallet;
-  const { gatekeeperNetwork, stage, clusterUrl } = env.prod;
+  const { gatekeeperNetwork, stage, cluster, clusterUrl } = env.prod;
   console.log(`publicKey:${publicKey}`);
   return (
     /* gatekeeperSendsTransaction disabled is the default behavior and the flag can be omitted */
@@ -43,6 +45,7 @@ function Gateway() {
       wallet={wallet}
       gatekeeperNetwork={gatekeeperNetwork}
       stage={stage}
+      cluster={cluster}
       clusterUrl={clusterUrl}
       gatekeeperSendsTransaction={false}>
         { publicKey && <RequestGatewayToken /> }
