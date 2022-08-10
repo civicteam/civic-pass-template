@@ -10,11 +10,13 @@ const env = {
   prod: {
     gatekeeperNetwork: new PublicKey('ignREusXmGrscGNUesoU9mxfds9AiYTezUKex2PsZV6'),
     clusterUrl: 'https://api.mainnet-beta.solana.com',
+    cluster: 'mainnet-beta'
   },
   test: {
     gatekeeperNetwork: new PublicKey('tigoYhp9SpCDoCQmXGj2im5xa3mnjR1zuXrpCJ5ZRmi'),
     clusterUrl: 'https://api.devnet.solana.com',
-    stage: 'dev',
+    cluster: 'devnet',
+    stage: 'preprod',
   }
 };
 
@@ -40,7 +42,7 @@ const requiresSignature = (transaction, wallet) => {
 function GatewayCustomHandleTransaction() {
   const wallet = useWallet();
   const { publicKey } = wallet;
-  const { gatekeeperNetwork, stage, clusterUrl } = env.prod;
+  const { gatekeeperNetwork, stage, cluster, clusterUrl } = env.prod;
   return (
     <GatewayProvider
       wallet={wallet}
@@ -48,7 +50,7 @@ function GatewayCustomHandleTransaction() {
       stage={stage}
       handleTransaction={async (transaction) => {
         // Provide a custom implementation to sign and send the transaction
-        const endpoint = clusterApiUrl('devnet');
+        const endpoint = clusterApiUrl(cluster);
         const connection = new Connection(endpoint, 'confirmed');
         const signature = requiresSignature(transaction, wallet)
           ? await wallet.sendTransaction(transaction, connection)
@@ -57,6 +59,7 @@ function GatewayCustomHandleTransaction() {
         const result = await connection.confirmTransaction(signature, 'processed');
         console.log(result);
       }}
+      cluster={cluster}
       clusterUrl={clusterUrl}>
         { publicKey && <RequestGatewayToken /> }
     </GatewayProvider>
