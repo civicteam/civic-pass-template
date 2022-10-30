@@ -30,7 +30,6 @@ function Gateway() {
     const wallet = useWallet();
     const { publicKey } = wallet;
     const { gatekeeperNetwork, cluster, clusterUrl } = env;
-    console.log(`publicKey:${publicKey}`);
     return (
         <GatewayProvider
             wallet={wallet}
