@@ -3,17 +3,26 @@ import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react
 import { WalletDisconnectButton, WalletModalProvider, WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import React, { useMemo } from "react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import { clusterApiUrl  } from "@solana/web3.js";
-import { getPhantomWallet, getSolletWallet } from "@solana/wallet-adapter-wallets";
 import Gateway from "./Gateway";
+import {clusterApiUrl} from "@solana/web3.js";
+import {
+  GlowWalletAdapter,
+  PhantomWalletAdapter,
+  SolflareWalletAdapter,
+  SolletWalletAdapter,
+  TorusWalletAdapter
+} from "@solana/wallet-adapter-wallets";
 
 function App() {
   const network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
   const wallets = useMemo(
     () => [
-      getPhantomWallet(),
-      getSolletWallet({ network }),
+      new PhantomWalletAdapter(),
+      new GlowWalletAdapter(),
+      new SolflareWalletAdapter({ network }),
+      new TorusWalletAdapter(),
+      new SolletWalletAdapter({ network }),
     ],
     [network]
   );
@@ -24,8 +33,6 @@ function App() {
           <WalletProvider wallets={wallets} autoConnect>
             <WalletModalProvider>
               <WalletMultiButton />
-              <br />
-              <WalletDisconnectButton />
               <br />
               <Gateway />
             </WalletModalProvider>
